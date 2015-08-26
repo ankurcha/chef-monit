@@ -59,9 +59,3 @@ file "/etc/default/monit" do
   ].join("\n")
   notifies :restart, "service[monit]"
 end
-
-# system service
-service "monit" do
-  supports restart: true, reload: true
-  action [:enable, :start]
-end
