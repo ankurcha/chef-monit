@@ -16,17 +16,17 @@ monit_dirs.each do |dir|
   end
 end
 
-template "/etc/init.d/monit" do
-  source "monit.init.erb"
+template "/etc/init/monit.conf" do
+  source "monit.upstart.erb"
   mode "0755"
   variables(
     prefix: node["monit"]["binary"]["prefix"],
-    config: node["monit"]["main_config_path"],
-    pidfile: node["monit"]["pidfile"]
+    config: node["monit"]["main_config_path"]
   )
 end
 
-execute "chkconfig monit on" do
-  only_if { platform_family?("rhel") }
-  not_if %(chkconfig --list | grep 'monit ' | grep '2:on')
+# system service
+service "monit" do
+  supports restart: true, reload: true
+  action [:enable, :start]
 end
