@@ -62,14 +62,8 @@ default["monit"]["mail"] = {
   using_hostname: nil
 }
 
-case node["platform_family"]
-when "rhel", "fedora", "suse"
-  default["monit"]["main_config_path"] = "/etc/monit.conf"
-  default["monit"]["includes_dir"] = "/etc/monit.d"
-else
-  default["monit"]["main_config_path"] = "/etc/monit/monitrc"
-  default["monit"]["includes_dir"] = "/etc/monit/conf.d"
-end
+default["monit"]["main_config_path"] = "/etc/monit/monitrc"
+default["monit"]["includes_dir"] = "/etc/monit/conf.d"
 
 # The monit::default recipe will load these monit_monitrc resources automatically
 # NOTE setting this attribute at the default level will append values to the array
@@ -85,25 +79,3 @@ default["monit"]["init_opts"] = ""
 # otherwise it will install the default. this value is ignored when performing a
 # source install.
 default["monit"]["version"] = nil
-
-# source install specifics
-default["monit"]["source_install"] = false
-default["monit"]["source_uninstall"] = false
-
-default["monit"]["source"]["version"] = "5.12.2"
-default["monit"]["source"]["prefix"] = "/usr/local"
-default["monit"]["source"]["url"] = "https://mmonit.com/monit/dist/monit-#{node["monit"]["source"]["version"]}.tar.gz"
-default["monit"]["source"]["checksum"] = "8ab0296d1aa2351b1573481592d7b5e06de1edd49dff1b5552839605a450914c"
-default["monit"]["source"]["pam_support"] = true
-default["monit"]["source"]["ssl_support"] = true
-default["monit"]["source"]["large_file_support"] = true
-default["monit"]["source"]["compiler_optimized"] = true
-
-# binary install specifics
-default["monit"]["binary_install"] = false
-default["monit"]["binary_uninstall"] = false
-
-default["monit"]["binary"]["version"] = "5.12.2"
-default["monit"]["binary"]["prefix"] = "/usr"
-default["monit"]["binary"]["url"] = "http://mmonit.com/monit/dist/binary/#{node["monit"]["binary"]["version"]}/monit-#{node["monit"]["binary"]["version"]}-linux-x64.tar.gz"
-default["monit"]["binary"]["checksum"] = "4908143752d0ee5081a50389a9206b7c905f9f8922a062a208fecf6e729a3c77"

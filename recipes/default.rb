@@ -3,14 +3,9 @@
 # Recipe:: default
 #
 
-include_recipe "apt" if platform_family?("debian") # ~FC007 uses `suggests`
-
-if node["monit"]["source_install"]
-  include_recipe "monit::install_source"
-elsif node["monit"]["binary_install"]
-  include_recipe "monit::install_binary"
-else
-  include_recipe "monit::install_package"
+include_recipe "apt"
+package "monit" do
+  version node["monit"]["version"] if node["monit"]["version"]
 end
 
 # optionally use encrypted mail credentials
